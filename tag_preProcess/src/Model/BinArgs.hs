@@ -1,15 +1,18 @@
 module Model.BinArgs where
 
-data PreprocessStage = Help
-                     | Sort
+data PreprocessStage = Sort SortArgs
                      | MakeLookUp
+
+data SortArgs = Files FilePath FilePath
 
 instance Show PreprocessStage where
   show = showPropPro
+instance Show SortArgs where
+  show = showSortArgs
 
 showPropPro :: PreprocessStage -> String
-showPropPro Sort = "Sort"
+showPropPro (Sort _) = "Sort"
 showPropPro MakeLookUp = "MakeLookUp"
-showPropPro Help = "Help:\n this bin is seperated in diffrent stages\n\t\
-\sort: sort the tag in use order\n\t\
-\lookup: makes a lookup table to generate the hierarchical clustering"
+
+showSortArgs :: SortArgs -> String
+showSortArgs (Files _ _) = ""
