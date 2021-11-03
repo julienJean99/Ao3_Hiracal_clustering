@@ -6,11 +6,12 @@ data Tag = Tag ID TagType String Bool Integer (Maybe ID) deriving (Show)
 
 data TagType = ArchiveWarning
              | Fandom
-             | RelationShip
+             | Relationship
              | Media
              | RawSettings
              | Category
              | Character
              | Freeform
              | UnsortedTag
+             | Rating
              deriving (Read, Show)

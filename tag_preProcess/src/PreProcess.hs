@@ -19,7 +19,7 @@ startStage (Sort args) = startSort args
 startStage MakeLookUp = return ()
 
 startSort :: SortArgs -> ExceptT ErrorMessages IO ()
-startSort (Files raw dest) = withExceptT (\_ -> FileDoesNotExist raw) $ ExceptT (try $ readFile raw) >>= (writeSortedTags dest . sortTags)
+startSort (Files raw dest) = ExceptT (try $ readFile raw) >>= (writeSortedTags dest . sortTags)
 
 writeSortedTags :: FilePath -> Either ErrorMessages [Tag] -> ExceptT ErrorMessages IO ()
 writeSortedTags dest (Right tags) = ExceptT $ try $ writeFile dest $ show tags

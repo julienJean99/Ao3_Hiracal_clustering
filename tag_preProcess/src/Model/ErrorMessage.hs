@@ -5,6 +5,7 @@ import Control.Exception (Exception)
 data ErrorMessages = InvalidArgument String
                    | FileDoesNotExist String
                    | CouldNotWrightToFile String
+                   | CouldNotReadField String
                    | Help
                    | HelpSort
 
@@ -18,6 +19,7 @@ errorMessagesShow :: ErrorMessages -> String
 errorMessagesShow (InvalidArgument s) = "Invalid argument: "++s
 errorMessagesShow (FileDoesNotExist s) = "File does not exist: "++s
 errorMessagesShow (CouldNotWrightToFile s) = "Could not wright to file: "++s
+errorMessagesShow (CouldNotReadField s) = "Could not read field: "++s
 errorMessagesShow Help = "Help:\n this bin is seperated in diffrent stages\n\
 \\tsort: sort the tag in use order\n\t\
 \lookup: makes a lookup table to generate the hierarchical clustering"
