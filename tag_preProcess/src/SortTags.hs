@@ -1,6 +1,7 @@
 module SortTags where
 
 import Model.Tag
+import Model.ErrorMessage (ErrorMessages)
 
-sortTags :: String -> [Tag]
-sortTags _ = []
+sortTags :: String -> Either ErrorMessages [Tag]
+sortTags _ = return []

@@ -6,7 +6,7 @@ import Model.ErrorMessage (ErrorMessages (..))
 import Model.Tag
 import SortTags (sortTags)
 import Control.Exception (try)
-import Control.Monad.Trans.Except (ExceptT(..), runExceptT, withExceptT)
+import Control.Monad.Trans.Except (ExceptT(..), runExceptT, withExceptT, throwE)
 
 preProcess :: IO ()
 preProcess = runExceptT pipeline >>= handleResult
@@ -21,8 +21,9 @@ startStage MakeLookUp = return ()
 startSort :: SortArgs -> ExceptT ErrorMessages IO ()
 startSort (Files raw dest) = withExceptT (\_ -> FileDoesNotExist raw) $ ExceptT (try $ readFile raw) >>= (writeSortedTags dest . sortTags)
 
-writeSortedTags :: FilePath -> [Tag] -> ExceptT ErrorMessages IO ()
-writeSortedTags dest flags = ExceptT $ try $ writeFile dest $ show flags
+writeSortedTags :: FilePath -> Either ErrorMessages [Tag] -> ExceptT ErrorMessages IO ()
+writeSortedTags dest (Right tags) = ExceptT $ try $ writeFile dest $ show tags
+writeSortedTags _    (Left e)     = throwE e
 
 handleResult :: Either ErrorMessages () -> IO ()
 handleResult (Right _) = return ()
